@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Girlfriend Day, Sezal! ❤️</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        /* Floating Hearts Animation */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Gift Screen */
+        #gift-screen {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            backdrop-filter: blur(5px);
+            transition: all 0.5s ease;
+        }
+
+        .gift-box {
+            font-size: 100px;
+            cursor: pointer;
+            margin: 20px 0;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+            transition: transform 0.3s;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .tap-instruction {
+            font-size: 1.1rem;
+            color: #ff4b2b;
+            font-weight: 600;
+        }
+
+        /* Main Content Screen (Hidden Initially) */
+        #content-screen {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1.title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ff2a5f;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* Love Letter Card */
+        .love-letter {
+            background: #fff0f3;
+            border-left: 5px solid #ff2a5f;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #4a4a4a;
+            text-align: left;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        /* Reasons Grid */
+        .reasons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .reason-card {
+            background: #ffe6ea;
+            padding: 15px 10px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #d63384;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            background: #ffd1dc;
+        }
+
+        /* Interactive Proposal Section */
+        .proposal-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #ffb6c1;
+        }
+
+        .proposal-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff2a5f, #ff758c);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 42, 95, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #666;
+            position: absolute;
+        }
+
+        /* Final Celebration Screen */
+        #celebration-msg {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #ff2a5f;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Hearts -->
+    <div class="heart-bg" id="heartContainer"></div>
+
+    <div class="container">
+        <!-- Step 1: Interactive Gift Box -->
+        <div id="gift-screen">
+            <h2 style="color: #ff2a5f;">Hey Sezal! ✨</h2>
+            <p style="color: #666; margin-top: 5px;">I have a special surprise gift for you...</p>
+            <div class="gift-box" onclick="openGift()">🎁</div>
+            <p class="tap-instruction">Tap the gift to open it! ❤️</p>
+        </div>
+
+        <!-- Step 2: Birthday / Girlfriend Day Card -->
+        <div id="content-screen">
+            <h1 class="title">Happy Girlfriend Day, Sezal! ❤️</h1>
+            <p class="subtitle">You make my world infinitely brighter every single day.</p>
+
+            <!-- Personalized Love Letter -->
+            <div class="love-letter">
+                Dearest Sezal,<br><br>
+                Thank you for being my favorite person, my safest comfort, and my greatest happiness. 
+                Life is so much sweeter and fun with you by my side. I love you more than words could ever express! 💕
+            </div>
+
+            <!-- Reasons Why You Love Her -->
+            <div class="reasons-container">
+                <div class="reason-card">✨ Your Beautiful Smile</div>
+                <div class="reason-card">💖 Your Kind Heart</div>
+                <div class="reason-card">🌸 How Cute You Are</div>
+                <div class="reason-card">🚀 Being My Best Friend</div>
+            </div>
+
+            <!-- Interactive Question -->
+            <div class="proposal-box">
+                <p class="proposal-question">Will you be my girlfriend forever & always? 🥺👉👈</p>
+                <div class="btn-group">
+                    <button class="btn btn-yes" onclick="sayYes()">YES! 💖</button>
+                    <button class="btn btn-no" id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">No 😜</button>
+                </div>
+                <div id="celebration-msg">Yay! 🎉 You made me the happiest person in the world, Sezal! I love you! ❤️🥰</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Floating Heart Generator
+        const heartContainer = document.getElementById('heartContainer');
+        const hearts = ['❤️', '💖', '🌸', '✨', '💕', '💗'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            heartContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeart, 300);
+
+        // Open Gift Box Function
+        function openGift() {
+            // Trigger Confetti
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            document.getElementById('gift-screen').style.display = 'none';
+            document.getElementById('content-screen').style.display = 'block';
+        }
+
+        // Playful Dodger "No" Button
+        let yesScale = 1;
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.querySelector('.btn-yes');
+            
+            // Randomly translate button away
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 200 - 100;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+            // Grow "Yes" button each time she tries to click "No"
+            yesScale += 0.15;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        }
+
+        // Handle "Yes" click
+        function sayYes() {
+            // Explosive Confetti burst
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.5 }
+            });
+
+            document.querySelector('.btn-group').style.display = 'none';
+            document.getElementById('celebration-msg').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
